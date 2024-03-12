@@ -68,6 +68,8 @@
     keysEnterText: 'Enter',
     keysEnterCallback: undefined,
     keysEnterCanClose: true,
+    showBottomRow: true,
+    fullWidth: false,
   };
   var kioskBoardCachedKeys;
   var kioskBoardNewOptions;
@@ -476,7 +478,11 @@
                   numberKeysContent += eachKey4;
                 }
               }
-              keysRowElements += '<div class="kioskboard-row kioskboard-row-top">' + numberKeysContent + '</div>';
+              if (opt.showBottomRow === true) {
+                keysRowElements += '<div class="kioskboard-row kioskboard-row-top">' + numberKeysContent  + '</div>';
+              } else {
+                keysRowElements += '<div class="kioskboard-row kioskboard-row-top">' + numberKeysContent  + backspaceKey + '</div>';
+              }
             }
             // only keyboard type is "all": end
 
@@ -497,7 +503,9 @@
             // dynamic keys group: end
 
             // bottom keys group: begin
-            keysRowElements += '<div class="kioskboard-row kioskboard-row-bottom ' + (allowedSpecialCharacters ? 'kioskboard-with-specialcharacter' : '') + '">' + capsLockKey + specialCharacterKey + spaceKey + enterKey + backspaceKey + '</div>';
+            if (opt.showBottomRow) {
+              keysRowElements += '<div class="kioskboard-row kioskboard-row-bottom ' + (allowedSpecialCharacters ? 'kioskboard-with-specialcharacter' : '') + '">' + capsLockKey + specialCharacterKey + spaceKey + enterKey + backspaceKey + '</div>';
+            }
             // bottom keys group: end
 
             // add if special character keys allowed: begin
@@ -873,6 +881,12 @@
             // keyboard click outside listener: end
           }
           // append keyboard: end
+          if (opt.fullWidth) {
+            var keyboardElm = window.document.getElementById(kioskBoardVirtualKeyboardId);
+            if (keyboardElm) {
+              keyboardElm.style.maxWidth = '100vw';
+            }
+          }
         };
         input.addEventListener('focus', inputFocusListener); // add input focus listener
         // each input focus listener: end
